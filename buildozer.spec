@@ -5,7 +5,7 @@ package.domain = org.wael.downloader
 source.dir = .
 source.include_exts = py,png,jpg,kv
 version = 1.0
-requirements = python3,kivy==2.3.0,yt_dlp,pillow
+requirements = python3,kivy,yt_dlp,certifi,urllib3,idna,charset-normalizer
 orientation = portrait
 android.permissions = INTERNET
 android.api = 33
