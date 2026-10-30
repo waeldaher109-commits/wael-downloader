@@ -22,17 +22,20 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential git python3-pip ccache libltdl-dev zlib1g-dev libffi-dev libssl-dev
         pip install --upgrade pip
-        pip install buildozer
+        pip install buildozer Cython==0.29.36
 
-    - name: Build with Buildozer
+    - name: Initialize Buildozer Spec
       run: |
-        echo y | buildozer init
+        buildozer init
         sed -i 's/#pname = My Application/pname = Wael Downloader/' buildozer.spec
         sed -i 's/#package.name = myapp/package.name = waeldownloader/' buildozer.spec
         sed -i 's/#package.domain = org.test/package.domain = org.wael/' buildozer.spec
-        sed -i 's/source.include_exts = py,png,jpg,kv,atlas/source.include_exts = py,png,jpg,txt,ico/' buildozer.spec
-        sed -i 's/requirements = python3,kivy/requirements = python3,kivy,customtkinter,yt_dlp,requests,urllib3,certifi,charset-normalizer,idna,pillow/' buildozer.spec
+        sed -i 's/source.include_exts = py,png,jpg,kv,atlas/source.include_exts = py,png,jpg,txt,ico,kv/' buildozer.spec
+        sed -i 's/requirements = python3,kivy/requirements = python3,kivy,yt_dlp,requests,urllib3,certifi,charset-normalizer,idna,pillow/' buildozer.spec
         sed -i 's/# orientation = portrait/orientation = portrait/' buildozer.spec
+
+    - name: Build with Buildozer
+      run: |
         buildozer -v android debug
 
     - name: Upload APK Artifact
