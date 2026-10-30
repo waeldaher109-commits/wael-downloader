@@ -9,3 +9,4 @@ requirements = python3,kivy,yt_dlp,requests,urllib3,certifi,charset-normalizer,i
 orientation = portrait
 fullscreen = 0
 android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
+android.archs = armeabi-v7a
