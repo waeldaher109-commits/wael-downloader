@@ -2,22 +2,43 @@ name: Build Android APK
 on:
   push:
     branches: [ "main" ]
+
 jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-    - name: Install dependencies
+
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install SDK and Build Tools
+      run: |
+        sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platforms;android-33" "build-tools;33.0.2" "platform-tools"
+        yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
+
+    - name: Install Buildozer & Dependencies
       run: |
         sudo apt update
-        sudo apt install -y zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev cmake libffi-dev libssl-dev
+        sudo apt install -y zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev cmake libffi-dev libssl-dev
+        pip install --upgrade pip
         pip install --upgrade buildozer Cython==0.29.36
+
     - name: Build APK
       run: |
         buildozer -v android debug
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
