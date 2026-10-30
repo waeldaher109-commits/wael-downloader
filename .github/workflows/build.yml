@@ -10,17 +10,14 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v3
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev cmake libffi-dev libssl-dev
+        sudo apt install -y zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev cmake libffi-dev libssl-dev
         pip install --upgrade buildozer Cython==0.29.36
-        sdkmanager --install "build-tools;33.0.2" "platforms;android-33" "platform-tools"
-        yes | sdkmanager --licenses
     - name: Build APK
-      run: buildozer -v android debug
+      run: |
+        buildozer -v android debug
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
