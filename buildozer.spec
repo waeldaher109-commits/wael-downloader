@@ -15,3 +15,4 @@ android.buildtools_version = 33.0.2
 android.accept_sdk_license_agreements = True
 [buildozer]
 log_level = 2
+android.skip_update = False
